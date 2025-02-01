@@ -1,5 +1,5 @@
 name: mem_value
-description: "A new Flutter package project."
+description: "Simplify syntax for presistant values"
 version: 0.0.1
 repository: "https://www.github.com/kld/mem_value"
 

@@ -1,8 +1,8 @@
 ## Introduction
 
-MemValue simplfies syntax for presistant values stored using SharedPrefrences (or similar packages). In addition, it provides a way to store and retrieve values while securing types. Meaning, when you define a MemValue of type int, only an int value will be stored. This is useful for ensuring that the value you are retrieving is the type you expect.
+MemValue simplifies syntax for persistent values stored using SharedPreferences (or similar packages). In addition, it provides a way to store and retrieve values while securing types. Meaning, when you define a MemValue of type int, only an int value will be stored. This is useful for ensuring that the value you are retrieving is the type you expect.
 
-**Important:** You need to provider MemValue with storage method before using any MemValue.
+**Important:** You need to provide MemValue with a storage method before using any MemValue.
 
 ### Define your MemValue like so:
 

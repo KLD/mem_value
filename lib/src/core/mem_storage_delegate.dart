@@ -1,5 +1,6 @@
 import 'package:mem_value/src/core/mem_storage.dart';
 
+/// An implementation of MemStorage using functions as parameters.
 class MemStorageDelegate extends MemStorage {
   final Future<String?> Function(String) readValue;
   final Future<void> Function(String, String) writeValue;

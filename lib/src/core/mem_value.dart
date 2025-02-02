@@ -8,6 +8,7 @@ abstract class MemValue<V> {
   /// Storage delegate used to read, write, and delete.
   static MemStorage _memStorage = const _ErrorMemStorage();
 
+  /// Sets global storage used in MemValues implementations.
   static void setStorage(MemStorage memStorage) {
     MemValue._memStorage = memStorage;
   }

@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mem_value/mem_value.dart';
-import 'package:mem_value/src/error/mem_value_error.dart';
 
 import '../helper.dart';
 
@@ -172,7 +171,7 @@ void main() {
       var memChoice =
           MemChoices(memValue, choices: [defaultValue, valueA, valueB])..load();
 
-      await memChoice.deleteTag();
+      await memChoice.delete();
       await memValue.load();
 
       expect(memValue.value, memValue.initValue);

@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mem_value/mem_value.dart';
-import 'package:mem_value/src/error/mem_value_error.dart';
 
 import '../helper.dart';
 
@@ -21,7 +20,7 @@ void main() {
 
   test('throws error when deleting value without storage setup', () {
     final memInt = MemInt('test');
-    expect(() => memInt.deleteTag(), throwsA(isA<MemValueError>()));
+    expect(() => memInt.delete(), throwsA(isA<MemValueError>()));
   });
 
   test('when persist is true, prevent resetting value', () {

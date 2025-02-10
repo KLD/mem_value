@@ -87,7 +87,7 @@ abstract class MemValue<V> {
     value = initValue;
   }
 
-  Future<void> deleteTag() => _memStorage.delete(tag);
+  Future<void> delete() => _memStorage.delete(tag);
 
   /// Ensures that the value is loaded before reading/writing. Refer to: `load()`
   void _ensureLoaded() {

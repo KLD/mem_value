@@ -11,4 +11,7 @@ class MemCollection {
 
   /// Resets all [MemValue]s in the collection.
   Future<void> resetAll() => Future.wait(_mems.map((e) => e.reset()));
+
+  /// Deletes all [MemValue]s in the collection.
+  Future<void> deleteAll() => Future.wait(_mems.map((e) => e.delete()));
 }

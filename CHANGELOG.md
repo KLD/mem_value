@@ -1,3 +1,7 @@
+## 0.1.1
+
+- Reduced SDK constraints
+
 ## 0.1.0
 
 - Renamed MemValue.delete (was deleteTag)

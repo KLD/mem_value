@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mem_value/mem_value.dart';
-import 'package:mem_value/src/core/mem_storage_delegate.dart';
-import 'package:mem_value/src/error/mem_value_error.dart';
 
 void main() {
   test("Mem Value error when storage is not assigned", () {

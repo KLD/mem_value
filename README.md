@@ -77,12 +77,12 @@ void main() async {
     /* .. .*/
 
     // Setting up MemStorage
-    MemValue.setup(MyMemStorage());
+    MemValue.setStorage(MyMemStorage());
 
     // --OR--
 
     // Setting up MemStorage using delegate
-    MemValue.setup(memStorageDelegate);
+    MemValue.setStorage(memStorageDelegate);
 
     /* ... */
 
@@ -150,7 +150,7 @@ var username = MemString('uniqueTag', persist: true);
 
 #### Non-nullable types:
 
-- MemInt
+- memValue
 - MemDouble
 - MemString
 - MemBool
@@ -163,7 +163,7 @@ var username = MemString('uniqueTag', persist: true);
 
 #### Nullable types:
 
-- NMemInt
+- NmemValue
 - NMemDouble
 - NMemString
 - NMemBool

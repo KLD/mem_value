@@ -7,7 +7,7 @@ class NMemInt extends MemValue<int?> {
   int? parse(String value) => int.tryParse(value);
 
   @override
-  String stringify(int? value) => value!.toString();
+  String stringify(int value) => value.toString();
 
   void increment([int amount = 1]) => value = value! + amount;
   void decrement([int amount = 1]) => value = value! - amount;

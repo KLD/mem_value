@@ -4,70 +4,82 @@ import 'package:mem_value/mem_value.dart';
 import '../helper.dart';
 
 void main() {
-  test('NMemDouble throw error when used without loading', () {
-    MemValue.setStorage(createFakeStorage());
-
-    var memInt = NMemDouble("test");
-
-    expect(() => memInt.value, throwsA(isA<MemValueError>()));
+  tearDown(() async {
+    MemValue.clearIds();
   });
 
-  test('NMemDouble initlize with 0', () {
+  test('NMemDouble throw error when used without loading', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = NMemDouble("test")..load();
+    var memValue = NMemDouble("test");
 
-    expect(memInt.value, null);
+    expect(() => memValue.value, throwsA(isA<MemValueException>()));
   });
 
-  test('NMemDouble initlize with 1', () {
+  test('NMemDouble initlize with 0', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = NMemDouble("test", initValue: 1)..load();
-    expect(memInt.value, 1);
+    var memValue = NMemDouble("test");
+    await memValue.load();
+
+    expect(memValue.value, null);
+  });
+
+  test('NMemDouble initlize with 1', () async {
+    MemValue.setStorage(createFakeStorage());
+
+    var memValue = NMemDouble("test", initValue: 1);
+    await memValue.load();
+    expect(memValue.value, 1);
   });
 
   test('NMemDouble set value', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = NMemDouble("test")..load();
-    memInt.value = 1;
-    expect(memInt.value, 1);
+    var memValue = NMemDouble("test");
+    await memValue.load();
+    memValue.value = 1;
+    expect(memValue.value, 1);
   });
 
   test('NMemDouble serilize and deserialize works', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDouble("test")..load();
-    memInt.value = 1;
-    var value = memInt.parse(memInt.stringify(memInt.value));
-    expect(memInt.value, value);
+    var memValue = NMemDouble("test");
+    await memValue.load();
+    memValue.value = 1;
+    var value = memValue.parse(memValue.stringify(memValue.value!));
+    expect(memValue.value, value);
   });
 
   test('NMemDouble increment', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDouble("test")..load();
-    expect(() => memInt.increment(), throwsA(isA<TypeError>()));
+    var memValue = NMemDouble("test");
+    await memValue.load();
+    expect(() => memValue.increment(), throwsA(isA<TypeError>()));
   });
 
   test('NMemDouble decrement', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDouble("test")..load();
-    expect(() => memInt.decrement(), throwsA(isA<TypeError>()));
+    var memValue = NMemDouble("test");
+    await memValue.load();
+    expect(() => memValue.decrement(), throwsA(isA<TypeError>()));
   });
 
   test('NMemDouble reset', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDouble("test")..load();
-    memInt.value = 8;
-    memInt.reset();
-    expect(memInt.value, null);
+    var memValue = NMemDouble("test");
+    await memValue.load();
+    memValue.value = 8;
+    memValue.reset();
+    expect(memValue.value, null);
   });
 
   test('NMemDouble reset to initValue', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDouble("test", initValue: 2)..load();
-    memInt.value = 8;
-    memInt.reset();
-    expect(memInt.value, 2);
+    var memValue = NMemDouble("test", initValue: 2);
+    await memValue.load();
+    memValue.value = 8;
+    memValue.reset();
+    expect(memValue.value, 2);
   });
 }

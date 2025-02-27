@@ -2,10 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mem_value/mem_value.dart';
 
 void main() {
+  tearDown(() async {
+    MemValue.clearIds();
+  });
   test("Mem Value error when storage is not assigned", () {
     var memValue = MemInt("int");
 
-    expect(() => memValue.value, throwsA(isA<MemValueError>()),
+    expect(() => memValue.value, throwsA(isA<MemValueException>()),
         reason: 'throws error MemValue.setStorage not setup');
   });
 

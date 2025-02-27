@@ -7,5 +7,5 @@ class NMemDateTime extends MemValue<DateTime?> {
   DateTime? parse(String value) => DateTime.tryParse(value);
 
   @override
-  String stringify(DateTime? value) => value!.toIso8601String();
+  String stringify(DateTime value) => value.toIso8601String();
 }

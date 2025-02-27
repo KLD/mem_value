@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 
-import '../error/mem_value_error.dart';
+import '../exception/mem_value_exception.dart';
 import 'mem_storage.dart';
 
 /// A value that stores its value in local storage.
 abstract class MemValue<V> {
+  /// A set of all used tags. Used to ensure uniqueness.
+  static final _ids = <String>{};
+
   /// Storage delegate used to read, write, and delete.
   static MemStorage _memStorage = const _ErrorMemStorage();
 
@@ -35,7 +38,12 @@ abstract class MemValue<V> {
     required this.initValue,
     this.persist = false,
   })  : _internalValue = initValue,
-        _isLoaded = false;
+        _isLoaded = false {
+    if (_ids.contains(tag)) {
+      throw MemValueException("Tag $tag is already in use");
+    }
+    _ids.add(tag);
+  }
 
   /// Reads value
   V get value {
@@ -92,7 +100,7 @@ abstract class MemValue<V> {
   /// Ensures that the value is loaded before reading/writing. Refer to: `load()`
   void _ensureLoaded() {
     if (!_isLoaded) {
-      throw MemValueError(
+      throw MemValueException(
           "Attempted to read value of $tag before loading it. use `load()`");
     }
   }
@@ -101,23 +109,29 @@ abstract class MemValue<V> {
   V parse(String value);
 
   /// Converts the `value` to a string
-  String stringify(V value);
+  String stringify(covariant V value);
+
+  /// Clears all used tags. Used for testing.
+  static void clearIds() {
+    _ids.clear();
+  }
 }
 
+/// Default storage used if no storage is set. Throws an error if used.
 class _ErrorMemStorage extends MemStorage {
   const _ErrorMemStorage();
   @override
   Future<void> delete(String tag) {
-    throw MemValueError("Storage not set. Use Use `MemValue.setStorage`");
+    throw MemValueException("Storage not set. Use Use `MemValue.setStorage`");
   }
 
   @override
   Future<String?> read(String tag) {
-    throw MemValueError("Storage not set. Use `MemValue.setStorage`");
+    throw MemValueException("Storage not set. Use `MemValue.setStorage`");
   }
 
   @override
   Future<void> write(String tag, String value) {
-    throw MemValueError("Storage not set. Use `MemValue.setStorage`");
+    throw MemValueException("Storage not set. Use `MemValue.setStorage`");
   }
 }

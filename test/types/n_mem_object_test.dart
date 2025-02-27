@@ -17,75 +17,80 @@ class MockObject with MemSerializable {
 }
 
 void main() {
+  tearDown(() async {
+    MemValue.clearIds();
+  });
+
   // ignore: avoid_init_to_null
-  var initValue = null;
+  MockObject? initValue = null;
   var valueA = const MockObject(1);
   var valueB = const MockObject(2);
 
   group("NMemObject initlization", () {
-    test('NMemObject throw error when used without loading', () {
+    test('NMemObject throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 
       var memValue = NMemObject<MockObject>("test", initValue: initValue);
 
-      expect(() => memValue.value, throwsA(isA<MemValueError>()));
+      expect(() => memValue.value, throwsA(isA<MemValueException>()));
     });
-    test('NMemObject initlize with default value', () {
+    test('NMemObject initlize with default value', () async {
       MemValue.setStorage(createFakeStorage());
 
-      var memValue = NMemObject<MockObject>("test", initValue: initValue)
-        ..load();
+      var memValue = NMemObject<MockObject>("test", initValue: initValue);
+      await memValue.load();
 
       expect(memValue.value, initValue);
     });
 
-    test('NMemObject initlize with initValue passed', () {
+    test('NMemObject initlize with initValue passed', () async {
       MemValue.setStorage(createFakeStorage());
 
-      var memValue = NMemObject<MockObject>("test", initValue: valueA)..load();
+      var memValue = NMemObject<MockObject>("test", initValue: valueA);
+      await memValue.load();
       expect(memValue.value, valueA);
     });
 
     test('NMemObject set value', () async {
       MemValue.setStorage(createFakeStorage());
 
-      var memValue = NMemObject<MockObject>("test", initValue: initValue)
-        ..load();
+      var memValue = NMemObject<MockObject>("test", initValue: initValue);
+      await memValue.load();
       memValue.value = valueA;
       expect(memValue.value, valueA);
     });
 
     test('NMemObject serilize default value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memValue = NMemObject<MockObject>("test", initValue: initValue)
-        ..load();
-      memValue.stringify(memValue.value);
+      var memValue = NMemObject<MockObject>("test", initValue: null);
+      await memValue.load();
+      memValue.stringify(memValue.value!);
       expect(true, true);
     });
     test('NMemObject serilize and deserialize default value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memValue = NMemObject<MockObject>("test", initValue: initValue)
-        ..load();
-      var value = memValue.parse(memValue.stringify(memValue.value));
+      var memValue = NMemObject<MockObject>("test", initValue: initValue);
+      await memValue.load();
+      var value = memValue.parse(memValue.stringify(memValue.value!));
       expect(memValue.value?.a, value.a);
     });
 
     test('NMemObject serilize and deserialize an assigned value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memValue = NMemObject<MockObject>("test", initValue: initValue)
-        ..load();
+      var memValue = NMemObject<MockObject>("test", initValue: initValue);
+      await memValue.load();
       memValue.value = valueA;
-      var value = memValue.parse(memValue.stringify(memValue.value));
+      var value = memValue.parse(memValue.stringify(memValue.value!));
       expect(memValue.value?.a, value.a);
     });
 
     test('NMemObject serilize and deserialize another assigned value',
         () async {
       MemValue.setStorage(createFakeStorage());
-      var memValue = NMemObject<MockObject>("test", initValue: initValue)
-        ..load();
+      var memValue = NMemObject<MockObject>("test", initValue: initValue);
+      await memValue.load();
       memValue.value = valueB;
-      var value = memValue.parse(memValue.stringify(memValue.value));
+      var value = memValue.parse(memValue.stringify(memValue.value!));
       expect(memValue.value?.a, value.a);
     });
   });

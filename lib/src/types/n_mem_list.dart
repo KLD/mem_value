@@ -10,7 +10,7 @@ class NMemList<T> extends MemValue<List<T>?> {
   List<T>? parse(String value) => jsonDecode(value).cast<T>();
 
   @override
-  String stringify(List<T>? value) => jsonEncode(value);
+  String stringify(List<T> value) => jsonEncode(value);
 
   void add(T item) {
     value = [...value!, item];

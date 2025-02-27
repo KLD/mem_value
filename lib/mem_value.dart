@@ -5,7 +5,7 @@ export 'src/core/mem_serializable.dart' show MemSerializable;
 export 'src/core/mem_storage.dart' show MemStorage;
 export 'src/core/mem_storage_delegate.dart' show MemStorageDelegate;
 export 'src/core/mem_value.dart' show MemValue;
-export 'src/error/mem_value_error.dart' show MemValueError;
+export 'src/exception/mem_value_exception.dart' show MemValueException;
 export 'src/types/mem_bool.dart' show MemBool;
 export 'src/types/mem_choices.dart' show MemChoices;
 export 'src/types/mem_custom.dart' show MemCustom;

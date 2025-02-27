@@ -10,7 +10,7 @@ class NMemSet<T> extends MemValue<Set<T>?> {
   Set<T>? parse(String value) => Set.from(jsonDecode(value).cast<T>());
 
   @override
-  String stringify(Set<T>? value) => jsonEncode(value!.toList());
+  String stringify(Set<T> value) => jsonEncode(value.toList());
 
   void add(T item) {
     value = {...value!, item};

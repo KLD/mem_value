@@ -4,57 +4,67 @@ import 'package:mem_value/mem_value.dart';
 import '../helper.dart';
 
 void main() {
-  test('MemString throw error when used without loading', () {
-    MemValue.setStorage(createFakeStorage());
-
-    var memInt = MemString("test");
-
-    expect(() => memInt.value, throwsA(isA<MemValueError>()));
+  tearDown(() async {
+    MemValue.clearIds();
   });
-  test('MemString initlize', () {
+
+  test('MemString throw error when used without loading', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = MemString("test")..load();
+    var memValue = MemString("test");
 
-    expect(memInt.value, "");
+    expect(() => memValue.value, throwsA(isA<MemValueException>()));
   });
-  test('MemString initlize', () {
+  test('MemString initlize', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = MemString("test", initValue: "init")..load();
+    var memValue = MemString("test");
+    await memValue.load();
 
-    expect(memInt.value, "init");
+    expect(memValue.value, "");
+  });
+  test('MemString initlize', () async {
+    MemValue.setStorage(createFakeStorage());
+
+    var memValue = MemString("test", initValue: "init");
+    await memValue.load();
+
+    expect(memValue.value, "init");
   });
 
   test('MemString set value', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = MemString("test")..load();
-    memInt.value = "new";
-    expect(memInt.value, "new");
+    var memValue = MemString("test");
+    await memValue.load();
+    memValue.value = "new";
+    expect(memValue.value, "new");
   });
 
   test('MemString serilize and deserialize works', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = MemString("test")..load();
-    memInt.value = "new";
-    var value = memInt.parse(memInt.stringify(memInt.value));
-    expect(memInt.value, value);
+    var memValue = MemString("test");
+    await memValue.load();
+    memValue.value = "new";
+    var value = memValue.parse(memValue.stringify(memValue.value));
+    expect(memValue.value, value);
   });
 
-  test('MemString resets to default value', () {
+  test('MemString resets to default value', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = MemString("test")..load();
-    memInt.value = "new";
-    memInt.reset();
-    expect(memInt.value, "");
+    var memValue = MemString("test");
+    await memValue.load();
+    memValue.value = "new";
+    memValue.reset();
+    expect(memValue.value, "");
   });
 
-  test('MemString resets to initValue', () {
+  test('MemString resets to initValue', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = MemString("test", initValue: "init")..load();
-    memInt.value = "new";
-    memInt.reset();
-    expect(memInt.value, "init");
+    var memValue = MemString("test", initValue: "init");
+    await memValue.load();
+    memValue.value = "new";
+    memValue.reset();
+    expect(memValue.value, "init");
   });
 }

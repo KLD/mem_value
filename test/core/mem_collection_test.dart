@@ -4,7 +4,10 @@ import 'package:mem_value/mem_value.dart';
 import '../helper.dart';
 
 void main() {
-  group('MemCollection', () {
+  tearDown(() async {
+    MemValue.clearIds();
+  });
+  group('MemCollection', () async {
     late MemInt memValue1;
     late MemInt memValue2;
     late MemCollection memCollection;

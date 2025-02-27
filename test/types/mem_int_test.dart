@@ -3,115 +3,132 @@ import 'package:mem_value/mem_value.dart';
 
 import '../helper.dart';
 
-void main() {
+void main() async {
+  tearDown(() async {
+    MemValue.clearIds();
+  });
+
   var defaultInitliazedValue = 0;
   var valueA = 1;
   var valueB = 2;
 
-  group("MemInt initlization", () {
-    test('MemInt throw error when used without loading', () {
+  group("memValue initlization", () async {
+    test('memValue throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 
-      var memInt = MemInt("test");
+      var memValue = MemInt("test");
 
-      expect(() => memInt.value, throwsA(isA<MemValueError>()));
+      expect(() => memValue.value, throwsA(isA<MemValueException>()));
     });
-    test('MemInt initlize with default value', () {
+    test('memValue initlize with default value', () async {
       MemValue.setStorage(createFakeStorage());
 
-      var memInt = MemInt("test")..load();
+      var memValue = MemInt("test");
+      await memValue.load();
 
-      expect(memInt.value, defaultInitliazedValue);
-    });
-
-    test('MemInt initlize with initValue passed', () {
-      MemValue.setStorage(createFakeStorage());
-
-      var memInt = MemInt("test", initValue: valueA)..load();
-      expect(memInt.value, valueA);
+      expect(memValue.value, defaultInitliazedValue);
     });
 
-    test('MemInt set value', () async {
+    test('memValue initlize with initValue passed', () async {
       MemValue.setStorage(createFakeStorage());
 
-      var memInt = MemInt("test")..load();
-      memInt.value = valueA;
-      expect(memInt.value, valueA);
+      var memValue = MemInt("test", initValue: valueA);
+      await memValue.load();
+      expect(memValue.value, valueA);
     });
 
-    test('MemInt serilize and deserialize default value', () async {
+    test('memValue set value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      var value = memInt.parse(memInt.stringify(memInt.value));
-      expect(memInt.value, value);
+
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.value = valueA;
+      expect(memValue.value, valueA);
     });
 
-    test('MemInt serilize and deserialize an assigned value', () async {
+    test('memValue serilize and deserialize default value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      memInt.value = valueA;
-      var value = memInt.parse(memInt.stringify(memInt.value));
-      expect(memInt.value, value);
+      var memValue = MemInt("test");
+      await memValue.load();
+      var value = memValue.parse(memValue.stringify(memValue.value));
+      expect(memValue.value, value);
     });
 
-    test('MemInt serilize and deserialize another assigned value', () async {
+    test('memValue serilize and deserialize an assigned value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      memInt.value = valueB;
-      var value = memInt.parse(memInt.stringify(memInt.value));
-      expect(memInt.value, value);
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.value = valueA;
+      var value = memValue.parse(memValue.stringify(memValue.value));
+      expect(memValue.value, value);
     });
 
-    test('MemInt reset', () async {
+    test('memValue serilize and deserialize another assigned value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memValue = MemInt("test")..load();
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.value = valueB;
+      var value = memValue.parse(memValue.stringify(memValue.value));
+      expect(memValue.value, value);
+    });
+
+    test('memValue reset', () async {
+      MemValue.setStorage(createFakeStorage());
+      var memValue = MemInt("test");
+      await memValue.load();
       memValue.reset();
       expect(memValue.value, defaultInitliazedValue);
     });
 
-    test('MemInt reset to intial value', () async {
+    test('memValue reset to intial value', () async {
       MemValue.setStorage(createFakeStorage());
-      var memValue = MemInt("test", initValue: valueA)..load();
+      var memValue = MemInt("test", initValue: valueA);
+      await memValue.load();
       memValue.reset();
       expect(memValue.value, valueA);
     });
   });
 
-  group("MemInt addtional methods", () {
-    test('MemInt increment', () async {
+  group("memValue addtional methods", () async {
+    test('memValue increment', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      memInt.increment();
-      expect(memInt.value, 1);
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.increment();
+      expect(memValue.value, 1);
     });
 
-    test('MemInt decrement', () async {
+    test('memValue decrement', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      memInt.decrement();
-      expect(memInt.value, -1);
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.decrement();
+      expect(memValue.value, -1);
     });
 
-    test('MemInt increment with amount', () async {
+    test('memValue increment with amount', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      memInt.increment(5);
-      expect(memInt.value, 5);
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.increment(5);
+      expect(memValue.value, 5);
     });
 
-    test('MemInt decrement with amount', () async {
+    test('memValue decrement with amount', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test")..load();
-      memInt.decrement(5);
-      expect(memInt.value, -5);
+      var memValue = MemInt("test");
+      await memValue.load();
+      memValue.decrement(5);
+      expect(memValue.value, -5);
     });
 
-    test('MemInt reset', () async {
+    test('memValue reset', () async {
       MemValue.setStorage(createFakeStorage());
-      var memInt = MemInt("test", initValue: 10)..load();
-      memInt.value = 8;
-      memInt.reset();
-      expect(memInt.value, 10);
+      var memValue = MemInt("test", initValue: 10);
+      await memValue.load();
+      memValue.value = 8;
+      memValue.reset();
+      expect(memValue.value, 10);
     });
   });
 }

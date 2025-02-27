@@ -7,7 +7,7 @@ class NMemBool extends MemValue<bool?> {
   bool? parse(String value) => bool.tryParse(value);
 
   @override
-  String stringify(bool? value) => value!.toString();
+  String stringify(bool value) => value.toString();
 
   void on() => value = true;
   void off() => value = false;

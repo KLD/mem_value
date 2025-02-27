@@ -4,32 +4,42 @@ import 'package:mem_value/mem_value.dart';
 import '../helper.dart';
 
 void main() {
-  test('throws error when value is not loaded', () {
-    final memInt = MemInt('test');
-    expect(() => memInt.value, throwsA(isA<MemValueError>()));
+  tearDown(() async {
+    MemValue.clearIds();
   });
-  test('throws error when saving value without storage setup', () {
-    final memInt = MemInt('test');
-    expect(() => memInt.save(), throwsA(isA<MemValueError>()));
+  test('throws error when value is not loaded', () async {
+    final memValue = MemInt('test');
+    expect(() => memValue.value, throwsA(isA<MemValueException>()));
   });
-
-  test('throws error when loading value without storage setup', () {
-    final memInt = MemInt('test');
-    expect(() => memInt.load(), throwsA(isA<MemValueError>()));
+  test('throws error when saving value without storage setup', () async {
+    final memValue = MemInt('test');
+    expect(() => memValue.save(), throwsA(isA<MemValueException>()));
   });
 
-  test('throws error when deleting value without storage setup', () {
-    final memInt = MemInt('test');
-    expect(() => memInt.delete(), throwsA(isA<MemValueError>()));
+  test('throws error when loading value without storage setup', () async {
+    final memValue = MemInt('test');
+    expect(() => memValue.load(), throwsA(isA<MemValueException>()));
   });
 
-  test('when persist is true, prevent resetting value', () {
+  test('throws error when deleting value without storage setup', () async {
+    final memValue = MemInt('test');
+    expect(() => memValue.delete(), throwsA(isA<MemValueException>()));
+  });
+
+  test('when persist is true, prevent resetting value', () async {
     MemValue.setStorage(createFakeStorage());
-    final memInt = MemInt('test', persist: true)..load();
+    final memValue = MemInt('test', persist: true);
+    await memValue.load();
 
-    memInt.value = 10;
-    memInt.reset();
+    memValue.value = 10;
+    memValue.reset();
 
-    expect(memInt.value, 10);
+    expect(memValue.value, 10);
+  });
+
+  test("Duplicate keys throw an error", () {
+    MemInt("test");
+
+    expect(() => MemBool("test"), throwsA(isA<MemValueException>()));
   });
 }

@@ -4,59 +4,69 @@ import 'package:mem_value/mem_value.dart';
 import '../helper.dart';
 
 void main() {
-  test('NMemDateTime throw error when used without loading', () {
-    MemValue.setStorage(createFakeStorage());
-
-    var memInt = NMemDateTime("test", initValue: DateTime(2000, 1, 1));
-
-    expect(() => memInt.value, throwsA(isA<MemValueError>()));
+  tearDown(() async {
+    MemValue.clearIds();
   });
-  test('NMemDateTime defaults to null', () {
+
+  test('NMemDateTime throw error when used without loading', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = NMemDateTime(
+    var memValue = NMemDateTime("test", initValue: DateTime(2000, 1, 1));
+
+    expect(() => memValue.value, throwsA(isA<MemValueException>()));
+  });
+  test('NMemDateTime defaults to null', () async {
+    MemValue.setStorage(createFakeStorage());
+
+    var memValue = NMemDateTime(
       "test",
-    )..load();
+    );
+    await memValue.load();
 
-    expect(memInt.value, null);
+    expect(memValue.value, null);
   });
-  test('NMemDateTime initlize', () {
+  test('NMemDateTime initlize', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = NMemDateTime("test", initValue: DateTime(2000, 1, 1))..load();
+    var memValue = NMemDateTime("test", initValue: DateTime(2000, 1, 1));
+    await memValue.load();
 
-    expect(memInt.value, DateTime(2000, 1, 1));
+    expect(memValue.value, DateTime(2000, 1, 1));
   });
 
   test('NMemDateTime set value', () async {
     MemValue.setStorage(createFakeStorage());
 
-    var memInt = NMemDateTime("test", initValue: DateTime(2000, 1, 1))..load();
-    memInt.value = DateTime(2010, 1, 1);
-    expect(memInt.value, DateTime(2010, 1, 1));
+    var memValue = NMemDateTime("test", initValue: DateTime(2000, 1, 1));
+    await memValue.load();
+    memValue.value = DateTime(2010, 1, 1);
+    expect(memValue.value, DateTime(2010, 1, 1));
   });
 
   test('NMemDateTime serilize and deserialize works', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDateTime("test", initValue: DateTime(2000, 1, 1))..load();
-    memInt.value = DateTime(2010, 1, 1);
-    var value = memInt.parse(memInt.stringify(memInt.value));
-    expect(memInt.value, value);
+    var memValue = NMemDateTime("test", initValue: DateTime(2000, 1, 1));
+    await memValue.load();
+    memValue.value = DateTime(2010, 1, 1);
+    var value = memValue.parse(memValue.stringify(memValue.value!));
+    expect(memValue.value, value);
   });
 
-  test('NMemDateTime resets to initValue', () {
+  test('NMemDateTime resets to initValue', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDateTime("test", initValue: DateTime(2000, 1, 1))..load();
-    memInt.value = DateTime(2010, 1, 1);
-    memInt.reset();
-    expect(memInt.value, DateTime(2000, 1, 1));
+    var memValue = NMemDateTime("test", initValue: DateTime(2000, 1, 1));
+    await memValue.load();
+    memValue.value = DateTime(2010, 1, 1);
+    memValue.reset();
+    expect(memValue.value, DateTime(2000, 1, 1));
   });
 
-  test('NMemDateTime resets to null', () {
+  test('NMemDateTime resets to null', () async {
     MemValue.setStorage(createFakeStorage());
-    var memInt = NMemDateTime("test")..load();
-    memInt.value = DateTime(2010, 1, 1);
-    memInt.reset();
-    expect(memInt.value, null);
+    var memValue = NMemDateTime("test");
+    await memValue.load();
+    memValue.value = DateTime(2010, 1, 1);
+    memValue.reset();
+    expect(memValue.value, null);
   });
 }

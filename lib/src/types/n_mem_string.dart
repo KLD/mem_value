@@ -7,5 +7,5 @@ class NMemString extends MemValue<String?> {
   String? parse(String value) => value;
 
   @override
-  String stringify(String? value) => value!;
+  String stringify(String value) => value;
 }

@@ -10,7 +10,7 @@ class NMemMap<K, V> extends MemValue<Map<K, V>?> {
   Map<K, V>? parse(String value) => jsonDecode(value).cast<K, V>();
 
   @override
-  String stringify(Map<K, V>? value) => jsonEncode(value);
+  String stringify(Map<K, V> value) => jsonEncode(value);
 
   void add(K k, V v) {
     value = {k: v, ...value!};

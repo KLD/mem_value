@@ -1,4 +1,4 @@
-import 'package:mem_value/src/error/mem_value_error.dart';
+import 'package:mem_value/src/exception/mem_value_exception.dart';
 
 import '../core/mem_value.dart';
 
@@ -19,10 +19,10 @@ class MemChoices<T> implements MemValue<T> {
   @override
   set value(value) {
     if (areEqual != null && choices.where((e) => areEqual!(e, value)).isEmpty) {
-      throw MemValueError("$value is not included in choices: $choices");
+      throw MemValueException("$value is not included in choices: $choices");
     }
     if (!choices.contains(value)) {
-      throw MemValueError("$value is not included in choices: $choices");
+      throw MemValueException("$value is not included in choices: $choices");
     }
     memValue.value = value;
   }

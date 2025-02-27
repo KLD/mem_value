@@ -58,5 +58,8 @@ class MemChoices<T> implements MemValue<T> {
   Future<void> setValue(T value) => memValue.setValue(value);
 
   @override
+  Future<T> read() => memValue.read();
+
+  @override
   Future<void> delete() => memValue.delete();
 }

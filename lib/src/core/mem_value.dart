@@ -64,13 +64,20 @@ abstract class MemValue<V> {
     return Future.value();
   }
 
+  /// Loads and returns the value
+  Future<V> read() async {
+    if (!_isLoaded) {
+      await load();
+    }
+
+    return _internalValue;
+  }
+
   /// Loads the value using storage delegate
   Future<void> load() async {
     _isLoaded = true;
     final storedValue = await _memStorage.read(tag);
-    if (storedValue == null) {
-      _internalValue = initValue;
-    } else {
+    if (storedValue != null) {
       _internalValue = parse(storedValue);
     }
 

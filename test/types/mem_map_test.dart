@@ -12,7 +12,7 @@ void main() {
   var valueA = const <dynamic, dynamic>{'A': 'a'};
   var valueB = const <dynamic, dynamic>{'B': 'b'};
 
-  group("MemMap initlization", () async {
+  group("MemMap initlization", () {
     test('MemMap throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 
@@ -73,7 +73,7 @@ void main() {
     });
   });
 
-  group("MemMap addtional methods", () async {
+  group("MemMap addtional methods", () {
     test('MemMap add', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = MemMap("test");

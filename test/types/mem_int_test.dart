@@ -12,7 +12,7 @@ void main() async {
   var valueA = 1;
   var valueB = 2;
 
-  group("memValue initlization", () async {
+  group("memValue initlization", () {
     test('memValue throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 
@@ -28,7 +28,6 @@ void main() async {
 
       expect(memValue.value, defaultInitliazedValue);
     });
-
     test('memValue initlize with initValue passed', () async {
       MemValue.setStorage(createFakeStorage());
 
@@ -36,7 +35,6 @@ void main() async {
       await memValue.load();
       expect(memValue.value, valueA);
     });
-
     test('memValue set value', () async {
       MemValue.setStorage(createFakeStorage());
 
@@ -89,7 +87,7 @@ void main() async {
     });
   });
 
-  group("memValue addtional methods", () async {
+  group("memValue addtional methods", () {
     test('memValue increment', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = MemInt("test");

@@ -64,18 +64,21 @@ void main() {
   });
 
   test("MemValue.load calls 'read' and parses stored value", () async {
-    int writeIsCallCount = 0;
+    int readIsCallCount = 0;
 
     MemValue.setStorage(MemStorageDelegate(
-        readValue: (_) async => "1",
-        writeValue: (_, __) async => writeIsCallCount++,
+        readValue: (_) async {
+          readIsCallCount++;
+          return "1";
+        },
+        writeValue: (_, __) async {},
         deleteValue: (_) async => Future.value()));
 
     var memValue = NMemInt("int");
 
     await memValue.load();
 
-    expect(writeIsCallCount, 1, reason: 'write is called once');
+    expect(readIsCallCount, 1, reason: 'write is called once');
   });
 
   test("MemValue calls `write` once when assigns a new value", () async {
@@ -89,6 +92,20 @@ void main() {
     var memValue = NMemInt("int");
     await memValue.load();
     memValue.value = 1;
+
+    expect(writeIsCallCount, 1, reason: 'write is called once');
+  });
+
+  test("MemValue calls `write` once when initlizing a new value", () async {
+    int writeIsCallCount = 0;
+
+    MemValue.setStorage(MemStorageDelegate(
+        readValue: (_) async => null,
+        writeValue: (_, __) async => writeIsCallCount++,
+        deleteValue: (_) async => Future.value()));
+
+    var memValue = NMemInt("int", initValue: 1);
+    await memValue.load();
 
     expect(writeIsCallCount, 1, reason: 'write is called once');
   });

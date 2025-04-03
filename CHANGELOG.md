@@ -5,7 +5,7 @@
 ## 0.1.0
 
 - Renamed MemValue.delete (was deleteTag)
-- Added MemCollection deleteAll method
+- Added MemGroup deleteAll method
 - Updated README.md
 
 ## 0.0.2

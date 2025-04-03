@@ -1,6 +1,6 @@
 library;
 
-export 'src/core/mem_collection.dart' show MemCollection;
+export 'src/core/mem_collection.dart' show MemGroup;
 export 'src/core/mem_serializable.dart' show MemSerializable;
 export 'src/core/mem_storage.dart' show MemStorage;
 export 'src/core/mem_storage_delegate.dart' show MemStorageDelegate;

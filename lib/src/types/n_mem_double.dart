@@ -1,7 +1,9 @@
 import '../core/mem_value.dart';
 
+/// A nullable [MemValue] implementation for [double]
 class NMemDouble extends MemValue<double?> {
-  NMemDouble(super.tag, {super.initValue, super.persist});
+  /// Creates a [NMemDouble] instance
+  NMemDouble(super.tag, {super.initValue, super.ignoreReset});
 
   @override
   double? parse(String value) => double.tryParse(value);

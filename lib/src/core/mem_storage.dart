@@ -1,5 +1,6 @@
 /// Define a storage interface for storing data in memory.
 abstract class MemStorage {
+  /// Adds const constructor implementation.
   const MemStorage();
 
   /// Reads value from storage. Null when value is not found.

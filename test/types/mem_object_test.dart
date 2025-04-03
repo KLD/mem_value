@@ -25,7 +25,7 @@ void main() async {
   var valueA = const MockObject(1);
   var valueB = const MockObject(2);
 
-  group("MemObject initlization", () async {
+  group("MemObject initlization", () {
     test('MemObject throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 

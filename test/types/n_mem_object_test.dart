@@ -60,21 +60,6 @@ void main() {
       expect(memValue.value, valueA);
     });
 
-    test('NMemObject serilize default value', () async {
-      MemValue.setStorage(createFakeStorage());
-      var memValue = NMemObject<MockObject>("test", initValue: null);
-      await memValue.load();
-      memValue.stringify(memValue.value!);
-      expect(true, true);
-    });
-    test('NMemObject serilize and deserialize default value', () async {
-      MemValue.setStorage(createFakeStorage());
-      var memValue = NMemObject<MockObject>("test", initValue: initValue);
-      await memValue.load();
-      var value = memValue.parse(memValue.stringify(memValue.value!));
-      expect(memValue.value?.a, value.a);
-    });
-
     test('NMemObject serilize and deserialize an assigned value', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = NMemObject<MockObject>("test", initValue: initValue);

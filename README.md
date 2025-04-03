@@ -1,6 +1,6 @@
 ## Introduction
 
-MemValue simplifies syntax for persistent or stored values like SharedPreferences (or similar packages). In addition, it provides a way to store and retrieve values while securing types. Meaning, when you define a MemValue of type int, only an int value will be stored. This is useful for ensuring that the value you are retrieving is the type you expect.
+MemValue simplifies syntax for persistent or stored values like SharedPreferences (or similar packages). This addition provides type safety to ensure loading and storing values of the same type. Meaning, when you define a MemValue of type int, only an int value will be stored. This is useful for ensuring that the value you are retrieving is the type you expect.
 
 **Important:** You need to provide MemValue with a storage method before using any MemValue.
 
@@ -31,7 +31,7 @@ Assigning a value to `username.value` will automatically save the value to stora
 - Use your perfered storage method.
 - 20 Defined types (including custom).
 - `MemChoices` wrapper to ensues only a set of values are storred.
-- `MemCollection` to load/reset multiple values.
+- `MemGroup` to load/reset multiple values.
 
 ## Getting started
 
@@ -102,18 +102,18 @@ var username = MemString('uniqueTag');
 await username.load();
 ```
 
-Note: you may also define `MemCollection` to load multiple values like so:
+Note: you may also define `MemGroup` to load multiple values like so:
 
 ```dart
 var memValue1 = MemString('uniqueTag1');
 var memValue2 = MemString('uniqueTag2');
 
-var memCollection = MemCollection([
+var memGroup = MemGroup([
     memValue1,
     memValue2,
 ]);
 
-await memCollection.loadAll();
+await memGroup.loadAll();
 ```
 
 ### Install package:
@@ -138,12 +138,12 @@ Resets value to it's inital value.
 await username.reset();
 ```
 
-### Declare a persist MemValue
+### Declare a presistant MemValue
 
-Persist avoid resetting value when `reset` is called. Useful for storing values that should never be reset to inital value.
+Presistant flag avoid resetting value when `reset` is called. Useful for storing values that should never be reset to inital value.
 
 ```dart
-var username = MemString('uniqueTag', persist: true);
+var username = MemString('uniqueTag', ignoreReset: true);
 ```
 
 ### Define MemValues

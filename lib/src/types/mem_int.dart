@@ -1,7 +1,9 @@
 import '../core/mem_value.dart';
 
+/// A [MemValue] implementation for [int]
 class MemInt extends MemValue<int> {
-  MemInt(super.tag, {super.initValue = 0, super.persist});
+  /// Creates a [MemInt] instance
+  MemInt(super.tag, {super.initValue = 0, super.ignoreReset});
 
   @override
   int parse(String value) => int.parse(value);

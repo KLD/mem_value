@@ -125,7 +125,7 @@ void main() {
           MemChoices(memValue, choices: [defaultValue, valueA, valueB]);
       await memChoice.load();
       expect(memValue.initValue, memChoice.initValue);
-      expect(memValue.persist, memChoice.persist);
+      expect(memValue.ignoreReset, memChoice.ignoreReset);
       expect(memValue.tag, memChoice.tag);
       expect(memValue.value, memChoice.value);
       expect(memValue.stringify(valueA), memChoice.stringify(valueA));

@@ -26,9 +26,9 @@ void main() {
     expect(() => memValue.delete(), throwsA(isA<MemValueException>()));
   });
 
-  test('when persist is true, prevent resetting value', () async {
+  test('when ignoreReset is true, prevent resetting value', () async {
     MemValue.setStorage(createFakeStorage());
-    final memValue = MemInt('test', persist: true);
+    final memValue = MemInt('test', ignoreReset: true);
     await memValue.load();
 
     memValue.value = 10;

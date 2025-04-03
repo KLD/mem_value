@@ -47,14 +47,13 @@ void main() {
       expect(memValue.value, valueA);
     });
 
-    test('NMemList serilize and deserialize default value', () async {
+    test('NMemList parse empty list', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = NMemList<String>("test");
-      await memValue.load();
-      expect(() => memValue.parse(memValue.stringify(memValue.value!)),
-          throwsA(isA<NoSuchMethodError>()));
-    });
+      var value = memValue.parse("[]");
 
+      expect(value.length, 0, reason: 'expected empty list');
+    });
     test('NMemList serilize and deserialize an assigned value', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = NMemList<String>("test");

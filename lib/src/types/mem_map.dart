@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import '../core/mem_value.dart';
 
-/// Uses jsonEncode and jsonDecode to store and retrieve a Map of items.
+/// A [MemValue] implementation for [Map]
 class MemMap<K, V> extends MemValue<Map<K, V>> {
-  MemMap(super.tag, {super.initValue = const {}, super.persist});
+  MemMap(super.tag, {super.initValue = const {}, super.ignoreReset});
 
   @override
   Map<K, V> parse(String value) => jsonDecode(value).cast<K, V>();

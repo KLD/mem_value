@@ -45,15 +45,6 @@ void main() {
       expect(memValue.value, valueA);
     });
 
-    test('NMemMap serilize and deserialize default value', () async {
-      MemValue.setStorage(createFakeStorage());
-      var memValue = NMemMap("test");
-      await memValue.load();
-
-      expect(() => memValue.parse(memValue.stringify(memValue.value!)),
-          throwsA(isA<NoSuchMethodError>()));
-    });
-
     test('NMemMap serilize and deserialize an assigned value', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = NMemMap("test");

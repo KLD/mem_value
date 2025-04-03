@@ -12,7 +12,7 @@ void main() async {
   var valueA = const ['item1'];
   var valueB = const ['item2'];
 
-  group("MemList initlization", () async {
+  group("MemList initlization", () {
     test('MemList throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 
@@ -46,12 +46,20 @@ void main() async {
       expect(memValue.value, valueA);
     });
 
+    test('MemList serilize value', () async {
+      MemValue.setStorage(createFakeStorage());
+      var memValue = MemList<String>("test");
+      await memValue.load();
+      var value = memValue.stringify(memValue.value);
+      expect(value, '[]');
+    });
+
     test('MemList serilize and deserialize default value', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = MemList<String>("test");
       await memValue.load();
       var value = memValue.parse(memValue.stringify(memValue.value));
-      expect(memValue.value, value);
+      expect(memValue.isEqual(value), true);
     });
 
     test('MemList serilize and deserialize an assigned value', () async {
@@ -89,7 +97,7 @@ void main() async {
     });
   });
 
-  group("MemList addtional methods", () async {
+  group("MemList addtional methods", () {
     test('MemList add', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = MemList<String>("test");

@@ -1,10 +1,12 @@
 import 'package:mem_value/mem_value.dart';
 
 /// A collection of [MemValue]s.
-class MemCollection {
+class MemGroup {
+  /// The [MemValue]s in the collection.
   final List<MemValue> _mems;
 
-  MemCollection(this._mems);
+  /// Creates a [MemGroup] instance.
+  MemGroup(this._mems);
 
   /// Loads all [MemValue]s in the collection.
   Future<void> loadAll() => Future.wait(_mems.map((e) => e.load()));

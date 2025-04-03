@@ -22,42 +22,42 @@ abstract class MemValue<V> {
   /// Inital value
   final V initValue;
 
-  /// Prevents resetting value
-  final bool persist;
-
-  @protected
+  /// If `true`, it will not reset the value when `reset()` is called.
+  final bool ignoreReset;
 
   /// Synced value with storage
+  @protected
   V _internalValue;
 
+  /// Indicates if the value is loaded from storage
   bool _isLoaded;
 
   /// Creates a new [MemValue] instance
   MemValue(
     this.tag, {
     required this.initValue,
-    this.persist = false,
+    this.ignoreReset = false,
   })  : _internalValue = initValue,
         _isLoaded = false {
-    if (_ids.contains(tag)) {
-      throw MemValueException("Tag $tag is already in use");
-    }
-    _ids.add(tag);
+    if (!_ids.add(tag)) throw MemValueException("Tag $tag is already in use");
   }
 
-  /// Reads value
+  /// Reads value. MemValue most be loaded.
   V get value {
     _ensureLoaded();
     return _internalValue;
   }
 
-  /// Assigns and stores value from
-  set value(V value) => setValue(value);
+  /// Assigns and stores value
+  set value(V value) {
+    _ensureLoaded();
+    setValue(value);
+  }
 
   /// Awaitable version of `set value`
   Future<void> setValue(V value) {
-    _ensureLoaded();
-    if (value != _internalValue) {
+    load();
+    if (!isEqual(value)) {
       _internalValue = value;
       return save();
     }
@@ -73,15 +73,15 @@ abstract class MemValue<V> {
     return _internalValue;
   }
 
-  /// Loads the value using storage delegate
-  Future<void> load() async {
+  /// Loads the value from storage. If `skipIfLoaded` is `true`, it will not load if already loaded.
+  Future<void> load([bool skipIfLoaded = true]) async {
+    if (_isLoaded && !skipIfLoaded) return;
     _isLoaded = true;
     final storedValue = await _memStorage.read(tag);
+
     if (storedValue != null) {
       _internalValue = parse(storedValue);
-    }
-
-    if (_internalValue != null) {
+    } else if (initValue != null) {
       await save();
     }
   }
@@ -95,14 +95,20 @@ abstract class MemValue<V> {
     await _memStorage.write(tag, stringify(_internalValue));
   }
 
-  /// Resets value to `initValue`. Deletes value if `initValue` equals `null`.
+  /// Resets value to `initValue`. If `ignoreReset` is `true`, it will not reset.
   Future<void> reset() async {
-    if (persist) return;
+    if (ignoreReset) return;
 
     value = initValue;
   }
 
+  /// Deletes value from storage
   Future<void> delete() => _memStorage.delete(tag);
+
+  /// Compares two values for equality. Used to skip saving if values are equal.
+  bool isEqual(V other) {
+    return _internalValue == other;
+  }
 
   /// Ensures that the value is loaded before reading/writing. Refer to: `load()`
   void _ensureLoaded() {
@@ -126,7 +132,9 @@ abstract class MemValue<V> {
 
 /// Default storage used if no storage is set. Throws an error if used.
 class _ErrorMemStorage extends MemStorage {
+  /// Creates a new instance of [_ErrorMemStorage]
   const _ErrorMemStorage();
+
   @override
   Future<void> delete(String tag) {
     throw MemValueException("Storage not set. Use Use `MemValue.setStorage`");

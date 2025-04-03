@@ -2,11 +2,18 @@ import 'package:mem_value/src/exception/mem_value_exception.dart';
 
 import '../core/mem_value.dart';
 
+/// Resticts mem value to a set of choices
 class MemChoices<T> implements MemValue<T> {
+  /// Value MemValue can be assigned to.
   final List<T> choices;
+
+  /// MemValue to restrict
   final MemValue<T> memValue;
+
+  /// Used to compare current value with value of choices.
   final bool Function(T, T)? areEqual;
 
+  /// Creates a new [MemChoices] instance
   MemChoices(
     this.memValue, {
     required this.choices,
@@ -16,6 +23,7 @@ class MemChoices<T> implements MemValue<T> {
     assert(choices.contains(memValue.initValue));
   }
 
+  /// sets value to [value] if it is included in [choices]
   @override
   set value(value) {
     if (areEqual != null && choices.where((e) => areEqual!(e, value)).isEmpty) {
@@ -40,10 +48,10 @@ class MemChoices<T> implements MemValue<T> {
   T get initValue => memValue.initValue;
 
   @override
-  Future<void> load() => memValue.load();
+  Future<void> load([bool skipIfLoaded = true]) => memValue.load(skipIfLoaded);
 
   @override
-  bool get persist => memValue.persist;
+  bool get ignoreReset => memValue.ignoreReset;
 
   @override
   Future<void> reset() => memValue.reset();
@@ -62,4 +70,7 @@ class MemChoices<T> implements MemValue<T> {
 
   @override
   Future<void> delete() => memValue.delete();
+
+  @override
+  bool isEqual(T other) => memValue.isEqual(other);
 }

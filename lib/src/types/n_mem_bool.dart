@@ -1,7 +1,9 @@
 import '../core/mem_value.dart';
 
+/// A nullable [MemValue] implementation for [bool]
 class NMemBool extends MemValue<bool?> {
-  NMemBool(super.tag, {super.initValue, super.persist});
+  /// Creates a [NMemBool] instance
+  NMemBool(super.tag, {super.initValue, super.ignoreReset});
 
   @override
   bool? parse(String value) => bool.tryParse(value);
@@ -9,6 +11,9 @@ class NMemBool extends MemValue<bool?> {
   @override
   String stringify(bool value) => value.toString();
 
-  void on() => value = true;
-  void off() => value = false;
+  /// Sets value to true
+  Future<void> on() => setValue(true);
+
+  /// Sets value to false
+  Future<void> off() => setValue(false);
 }

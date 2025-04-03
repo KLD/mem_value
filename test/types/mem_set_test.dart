@@ -12,7 +12,7 @@ void main() {
   var valueA = const {'item1'};
   var valueB = const {'item2'};
 
-  group("MemSet initlization", () async {
+  group("MemSet initlization", () {
     test('MemSet throw error when used without loading', () async {
       MemValue.setStorage(createFakeStorage());
 
@@ -73,7 +73,7 @@ void main() {
     });
   });
 
-  group("MemSet addtional methods", () async {
+  group("MemSet addtional methods", () {
     test('MemSet add', () async {
       MemValue.setStorage(createFakeStorage());
       var memValue = MemSet<String>("test");

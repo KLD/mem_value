@@ -2,14 +2,14 @@ import '../core/mem_serializable.dart';
 import '../core/mem_value.dart';
 import '../exception/mem_value_exception.dart';
 
-/// Uses [MemSerializable] to store and retrieve a custom object.
+/// A nullable [MemValue] implementation for [MemSerializable]
 class NMemObject<T extends MemSerializable> extends MemValue<T?> {
   final MemSerializable? parser;
 
   NMemObject(
     super.tag, {
     super.initValue,
-    super.persist,
+    super.ignoreReset,
     this.parser,
   });
 

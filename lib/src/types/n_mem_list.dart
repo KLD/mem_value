@@ -1,16 +1,17 @@
 import 'dart:convert';
 
 import '../core/mem_value.dart';
+import 'n_mem_iterable.dart';
 
-/// Users jsonEncode and jsonDecode to store and retrieve a List of items.
-class NMemList<T> extends MemValue<List<T>?> {
-  NMemList(super.tag, {super.initValue, super.persist});
-
-  @override
-  List<T>? parse(String value) => jsonDecode(value).cast<T>();
-
-  @override
-  String stringify(List<T> value) => jsonEncode(value);
+/// A  nullable [MemValue] implementation for [List<T>]
+/// Uses [jsonEncode] and [jsonDecode] for serialization
+class NMemList<T> extends NMemIterable<T, List<T>> {
+  /// Creates a [NMemList] instance
+  NMemList(super.tag,
+      {super.initValue,
+      super.ignoreReset,
+      super.decodeElement,
+      super.encodeElement});
 
   void add(T item) {
     value = [...value!, item];

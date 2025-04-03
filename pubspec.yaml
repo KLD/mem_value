@@ -1,5 +1,5 @@
 name: mem_value
-description: "Simplify syntax for presistant values"
+description: Syntax wrapper for stored values
 version: 0.1.1
 repository: "https://www.github.com/kld/mem_value"
 

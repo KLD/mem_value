@@ -45,6 +45,7 @@ abstract class MemValue<V> {
   /// Reads value. MemValue most be loaded.
   V get value {
     _ensureLoaded();
+
     return _internalValue;
   }
 
@@ -57,7 +58,7 @@ abstract class MemValue<V> {
   /// Awaitable version of `set value`
   Future<void> setValue(V value) {
     load();
-    if (!isEqual(value)) {
+    if (!_isNewValue(value)) {
       _internalValue = value;
       return save();
     }
@@ -75,7 +76,7 @@ abstract class MemValue<V> {
 
   /// Loads the value from storage. If `skipIfLoaded` is `true`, it will not load if already loaded.
   Future<void> load([bool skipIfLoaded = true]) async {
-    if (_isLoaded && !skipIfLoaded) return;
+    if (_isLoaded && skipIfLoaded) return;
     _isLoaded = true;
     final storedValue = await _memStorage.read(tag);
 
@@ -99,14 +100,14 @@ abstract class MemValue<V> {
   Future<void> reset() async {
     if (ignoreReset) return;
 
-    value = initValue;
+    await setValue(initValue);
   }
 
   /// Deletes value from storage
   Future<void> delete() => _memStorage.delete(tag);
 
   /// Compares two values for equality. Used to skip saving if values are equal.
-  bool isEqual(V other) {
+  bool _isNewValue(V other) {
     return _internalValue == other;
   }
 

@@ -4,6 +4,10 @@ MemValue simplifies syntax for persistent or stored values like SharedPreference
 
 **Important:** You need to provide MemValue with a storage method before using any MemValue.
 
+## Example App
+
+Check out the [example app](example/) for a complete demonstration of all MemValue features with an interactive Flutter UI.
+
 ### Define your MemValue like so:
 
 ```dart

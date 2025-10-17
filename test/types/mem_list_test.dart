@@ -59,7 +59,7 @@ void main() async {
       var memValue = MemList<String>("test");
       await memValue.load();
       var value = memValue.parse(memValue.stringify(memValue.value));
-      expect(memValue.isEqual(value), true);
+      expect(value, true);
     });
 
     test('MemList serilize and deserialize an assigned value', () async {

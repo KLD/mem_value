@@ -70,7 +70,4 @@ class MemChoices<T> implements MemValue<T> {
 
   @override
   Future<void> delete() => memValue.delete();
-
-  @override
-  bool isEqual(T other) => memValue.isEqual(other);
 }

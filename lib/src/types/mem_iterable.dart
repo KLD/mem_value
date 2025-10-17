@@ -9,17 +9,15 @@ mixin MemIterable<E, T extends Iterable<E>> on MemValue<T> {
   /// Encodes an element to string
   String Function(E)? encodeElement;
 
+  /// Parses a string value into an [Iterable] and parses each element to type [E].
   Iterable<E> parseIterable(String value) {
     return (jsonDecode(value) as Iterable)
         .cast<String>()
         .map(_parseElementValue);
   }
 
-  @override
-  String stringify(Iterable<E> value) =>
-      jsonEncode(value.map(_stringifyElementValue).toList());
-
-  /// parses each element from string
+  /// parses each element from string. Uses [decodeElement] if provided,
+  /// otherwise casts the value to [E].
   E _parseElementValue(String value) {
     if (decodeElement != null) {
       return decodeElement!(value);
@@ -27,26 +25,16 @@ mixin MemIterable<E, T extends Iterable<E>> on MemValue<T> {
     return value as E;
   }
 
-  /// stringifies each element to string
-  String _stringifyElementValue(E? value) {
+  @override
+  String stringify(Iterable<E> value) =>
+      jsonEncode(value.map(_stringifyElementValue).toList());
+
+  /// stringifies each element to string. Uses [encodeElement] if provided,
+  /// otherwise calls [toString] on the value.
+  dynamic _stringifyElementValue(E? value) {
     if (encodeElement != null && value != null) {
       return encodeElement!(value);
     }
-    return value.toString();
-  }
-
-  @override
-  bool isEqual(Iterable<E?> other) {
-    if (value.length != other.length) {
-      return false;
-    }
-
-    for (var i = 0; i < value.length; i++) {
-      if (value.elementAt(i) != other.elementAt(i)) {
-        return false;
-      }
-    }
-
-    return true;
+    return value;
   }
 }

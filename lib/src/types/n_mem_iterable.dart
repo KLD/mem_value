@@ -43,22 +43,4 @@ abstract class NMemIterable<E, T extends Iterable<E>> extends MemValue<T?> {
     }
     return value.toString();
   }
-
-  @override
-  bool isEqual(Iterable<E?>? other) {
-    if (value == null && other == null) return true;
-    if (value == null || other == null) return false;
-
-    if (value!.length != other.length) {
-      return false;
-    }
-
-    for (var i = 0; i < value!.length; i++) {
-      if (value!.elementAt(i) != other.elementAt(i)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
 }

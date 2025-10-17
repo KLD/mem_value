@@ -1,3 +1,8 @@
+
+## 0.2.0
+- Added example app demonstrating various MemValue features
+- Enhanced internal API
+
 ## 0.1.1
 
 - Reduced SDK constraints

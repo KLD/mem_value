@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-
-import '../exception/mem_value_exception.dart';
-import 'mem_storage.dart';
+import 'package:mem_value/mem_value.dart';
 
 /// A value that stores its value in local storage.
 abstract class MemValue<V> {
@@ -14,6 +12,15 @@ abstract class MemValue<V> {
   /// Sets global storage used in MemValues implementations.
   static void setStorage(MemStorage memStorage) {
     MemValue._memStorage = memStorage;
+  }
+
+  /// Sets global storage delegate used in MemValues implementations.
+  static void setStorageDelegate(
+      {required Future<String?> Function(String) readValue,
+      required Future<void> Function(String, String) writeValue,
+      required Future<void> Function(String) deleteValue}) {
+    MemValue._memStorage = MemStorageDelegate(
+        readValue: readValue, writeValue: writeValue, deleteValue: deleteValue);
   }
 
   /// Tag used to indentity value in memory. Must be unique
@@ -42,7 +49,7 @@ abstract class MemValue<V> {
     if (!_ids.add(tag)) throw MemValueException("Tag $tag is already in use");
   }
 
-  /// Reads value. MemValue most be loaded.
+  /// Reads value. MemValue must be loaded.
   V get value {
     _ensureLoaded();
 

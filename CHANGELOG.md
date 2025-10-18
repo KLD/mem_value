@@ -1,3 +1,5 @@
+## 0.2.1
+- Added `MemValue.setStorageDelegate`
 
 ## 0.2.0
 - Added example app demonstrating various MemValue features

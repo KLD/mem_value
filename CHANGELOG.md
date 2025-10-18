@@ -1,3 +1,6 @@
+## 0.2.2
+- Updated pubspec.yaml with description
+
 ## 0.2.1
 - Added `MemValue.setStorageDelegate`
 

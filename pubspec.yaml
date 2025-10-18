@@ -1,6 +1,6 @@
 name: mem_value
 description: Type-safe persistent storage wrapper with automatic serialization for Flutter.
-version: 0.2.1
+version: 0.2.2
 repository: "https://www.github.com/kld/mem_value"
 
 environment:

@@ -1,5 +1,5 @@
 name: mem_value
-description: Syntax wrapper for stored values
+description: Type-safe persistent storage wrapper with automatic serialization for Flutter.
 version: 0.2.1
 repository: "https://www.github.com/kld/mem_value"
 
